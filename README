@@ -1,0 +1,60 @@
+
+Hoi,
+
+Ik ben op zoek naar een XML tool waarmee ik eenvoudig data uit XML-bestanden kan
+halen en gebruiken voor andere doeleinden.
+
+Bijgevoegd zijn twee XML bestanden, elk voor een ander project. De configurator
+test-file bevat informatie voor een samengesteld artikel, en deze informatie
+moet omgezet worden naar een import-formaat voor Exact. De productindex test-file
+bevat een hele lijst (oke, 4, maar de echte file is >1GB) met verwijzingen naar
+producten, en hiervan moeten de entries met een bepaald Catid verwerkt worden.
+
+Voor de opdracht verwacht ik een implementatie voor de productindex, maar op zo'n
+manier opgezet dat de basis herbruikbaar is voor de configurator (en voor andere
+xml-bestanden natuurlijk).
+
+Als je kijkt naar test_productindex.xml, dan wil ik van 'file' entries met
+attribuut 'Catid' van '587' een rapportje op het scherm krijgen met
+- Product_ID,
+- Model_Name
+- path (naar de detail-xml)
+- HighPic
+- een lijst met de EAN_UPC Values
+
+Voor het test-bestand zou er dan uit moeten komen, netjes geformatteerd:
+
+Product 30114
+-------------
+Title:      Lightweight Tripod VCT-R640
+Image:      http://images.icecat.biz/img/norm/high/30114-Sony.jpg
+Detail-XML: export/level4/NL/30114.xml
+EANs:
+- 4901780776467
+- 5053460903188
+
+Het echte bestand bevat 10.000en file entries en 1.000en entries met Catid=587,
+en geeft dus een output met 1.000en stukjes geformatteerde tekst.
+
+Ik denk aan een opsplitsing in een deel library (herbruikbaar) en een deel
+project-code (specifiek inlezen van deze xml-structuur, en output van
+geformatteerde tekst). De library moet ook door iemand gebruikt kunnen worden
+die een beperkte programmeerkennis heeft, bijvoorbeeld om de configurator
+xml te gaan verwerken.
+
+Beperkte programmeerkennis betekent hier: kan code lezen en aanpassen, een
+eenvoudige class definieren en natuurlijk loops en if/thens en dergelijke.
+Daarnaast kun je ze ook dingen leren en uitleggen als dat nodig is :-).
+
+Ik zou het leuk vinden een oplossing in Python te zien, maar een PHP-versie is
+ook goed.
+
+Het gaat erom om een idee te krijgen over je manier van code opzetten, over
+herbruikbaarheid, en om te kunnen discussieren over de code die je geschreven
+hebt.
+
+Als je vragen of opmerkingen hebt, kun je mij bereiken via marc@guidance.nl of
+ons algemene telefoonnummer 010-2642323.
+
+Ciao, Marc.
+
