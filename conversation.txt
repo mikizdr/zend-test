@@ -1,0 +1,202 @@
+indeed
+they want you to filter data from the xml file
+but more than that
+they want you to create a class that makes it easy for other people to filter data
+probably should create something that let's you pick a tag and a value to filter on
+actually
+catId is not a tag
+but the attribute of a tag
+so you should filter on tag (+attribute)
+I think you also need to make the output flexible
+so they can select what to output
+in what format
+just a product
+that some company is selling
+composite means put together from parts
+or something
+composite: made up of several parts or elements.
+also
+since the file is so large
+you might want to take a look at this:
+https://www.sitepoint.com/performant-reading-big-files-php/
+SitePoint
+How to Read Big Files with PHP (Without Killing Your Server) — SitePoint
+Christopher Pitt shows how to read and write large files efficiently, using of streams and generators to remove an entire category of application errors.
+Nov 16th, 2017
+https://www.sitepoint.com/wp-content/themes/sitepoint/assets/images/icon.php.png
+just google on it
+I think they'll be impressed if you think about processing the large file efficiently
+
+miroslav [3:08 PM]
+Agree. That is very important.
+
+sjoerd [3:10 PM]
+brb
+
+miroslav [3:12 PM]
+back
+
+sjoerd [3:12 PM]
+lol
+wrong window
+any other questions?
+
+miroslav [3:14 PM]
+ok
+I must use php xml dom, parser, ...?
+
+sjoerd [3:14 PM]
+I would use simplexml
+I think
+see if it works without errors
+if the xml is not valid it won't work
+simplxml_load_string
+
+miroslav [3:15 PM]
+it should load a xml file?
+
+sjoerd [3:15 PM]
+well
+you can do simplexml_load_file
+or first read the file into a string
+and then do simplexml_load_string
+doesn't matter :slightly_smiling_face:
+
+miroslav [3:16 PM]
+I see. I'll try.
+Anything else...
+
+sjoerd [3:16 PM]
+nah
+just comment
+and try to make it reusable
+simplexml uses xpath
+do you know that?
+
+miroslav [3:17 PM]
+I worked on some web data extraction project and used xpath for selecting elements
+
+sjoerd [3:17 PM]
+:+1:
+
+miroslav [3:17 PM]
+But didn't use xml files but html
+I can use xpath in xml?
+
+sjoerd [3:18 PM]
+in the simple xml object, yes
+http://www.dimuthu.org/blog/2008/09/30/xpath-in-simplexml/
+
+miroslav [3:19 PM]
+So the way is the same. Make an xmldom object and manipulate with it in the same way?
+
+sjoerd [3:19 PM]
+yes very similar
+
+miroslav [3:19 PM]
+Just one more quesition and I won't waist your time more
+
+sjoerd [3:20 PM]
+:slightly_smiling_face:
+no problem
+take your time
+let me check
+detail xml is another xml file
+so I guess he wants to read the out from that as well
+output can be in browser or export file, doesn't matter much since it's easy to change
+can you open the xml?
+hmmm that's true
+all he says is 'I want something that's flexible in how it handles each match'
+so just write the class to be flexible
+
+miroslav [3:27 PM]
+OK
+
+sjoerd [3:27 PM]
+no
+there is a very large xml file
+with thousands of products
+catId is probably category ID
+so many different products can have the same category ID
+then each product has a detail xml file
+which is probably a different file for each product
+there are several steps
+1) read the xml file and get the matches
+2) process the matches
+step 2 can be just printing like in the example, or step 2 can be processing the detail xml files
+
+miroslav [3:30 PM]
+I see.
+
+sjoerd [3:30 PM]
+needless to say, but this is just my interpretation :wink:
+
+miroslav [3:31 PM]
+You see this line/question?
+
+sjoerd [3:31 PM]
+yes
+yes
+so you can write 2 classes
+1) a library for reading (a very large) xml file and find matches
+2) a child class that processes the matches, one that is specific for this project
+make sure you add some nice and clear error handling
+to handle a none existing file input, or invalid xml, or whatever
+programmers love that :slightly_smiling_face:
+
+miroslav [3:36 PM]
+Hehe yes I know that.
+Since this is a naked project I can use official PHP classes for error handling wiht try/catch blocks.
+
+sjoerd [3:37 PM]
+indeed
+he's saying that someone with less programming skills must be able to use it
+in this paragraph he explains what somebody with less programming skills can do
+
+miroslav [3:39 PM]
+Aha, I see.
+OK. That's all for now.
+If you don't mind I wouldn't say good bye for now.
+But for the next wee.
+I want to finish that code for testing and some more explanations.
+
+sjoerd [3:40 PM]
+sure, that'll be great
+and let me know if you have any questions about the xml thing
+
+miroslav [3:41 PM]
+So if you don't mind I can be active on this channel during the nest week.
+
+sjoerd [3:41 PM]
+:+1:
+
+miroslav [3:41 PM]
+I'll prepare something for this project and if you want you can look at that next week if you have the time.
+
+sjoerd [3:42 PM]
+yes
+monday or thursday
+tues and wednes I'm at the horse-game-guy
+
+miroslav [3:42 PM]
+OK :slightly_smiling_face:
+
+sjoerd [3:42 PM]
+ok I need to finish something
+ttyl!
+and have a good weekend
+and thanks for your work :slightly_smiling_face:
+
+miroslav [3:44 PM]
+Thanks man. I had very pleasant time with you and other guys during my visit and during the work. I'm sorry there was no chance to come to my country but one never knows :slightly_smiling_face:
+
+
+sjoerd [3:45 PM]
+yeah I regret that too
+maybe if I ever get to visit I'll give you a call?
+
+miroslav [3:45 PM]
+Yes, it would be great!
+
+sjoerd [3:45 PM]
+well, email probably :slightly_smiling_face:
