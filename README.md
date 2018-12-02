@@ -1,5 +1,8 @@
 https://personalprogrammer.mk/senior-php-developer-with-experience-in-zend-framework/
 
+TOOLS:
+https://github.com/prewk/xml-string-streamer
+http://www.dimuthu.org/blog/2008/09/30/xpath-in-simplexml/
 
 Hi,
 
