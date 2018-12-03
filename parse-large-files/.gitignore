@@ -1,0 +1,4 @@
+*.xml
+*.gz
+!test.xml
+!test_productindex.xml
