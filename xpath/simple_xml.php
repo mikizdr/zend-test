@@ -5,9 +5,10 @@ $xml = file_get_contents('test_productindex.xml');
 $files_index = new SimpleXMLElement($xml);
 
 $path = $files_index->xpath('//@path');
+$catId = $files_index->xpath('//@Catid');
 
 echo '<pre>';
-foreach ($path as $key => $value) {
+foreach ($catId as $key => $value) {
     echo $value . '<br>';
 }
 // echo $path[0];

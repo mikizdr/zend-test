@@ -3,6 +3,8 @@ https://personalprogrammer.mk/senior-php-developer-with-experience-in-zend-frame
 TOOLS:
 https://github.com/prewk/xml-string-streamer
 http://www.dimuthu.org/blog/2008/09/30/xpath-in-simplexml/
+ERRORS:
+http://php.net/manual/en/simplexml.examples-errors.php
 
 Hi,
 
