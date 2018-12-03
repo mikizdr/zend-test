@@ -146,6 +146,13 @@ foreach ($ean_upcs as $key => $value) {
     // var_dump(gettype($value));
 }
 print_r($eans);
+
+$m_prod_ids = $simple_xml->xpath('/ICECAT-interface/files.index/file/M_Prod_ID');
+echo '<h1>M Prod ID</h1>';
+foreach ($m_prod_ids as $key => $value) {
+    $m_prods[$key][] = strval($val->attributes());
+}
+print_r($m_prods);
 // echo $path[0];
 // var_dump($simple_xml);
 echo '</pre>';
