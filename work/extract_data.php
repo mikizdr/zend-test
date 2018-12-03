@@ -60,51 +60,92 @@ foreach ($file_index as $key => $value) {
 }
 
 $path = $simple_xml->xpath('//@path');
+echo '<h1>Path</h1>';
 foreach ($path as $key => $value) {
-    // print $value . '<br>';
+    if ($value != '') {
+        print 'Path: ' . $value . '<br>';
+    }
+}
+
+$high_pics = $simple_xml->xpath('//@HighPic');
+echo '<h1>HighPic</h1>';
+foreach ($high_pics as $key => $value) {
+    if ($value != '') {
+        print 'High pic: ' . $value . '<br>';
+    }
+}
+
+$model_name = $simple_xml->xpath('//@Model_Name');
+echo '<h1>Model Name</h1>';
+foreach ($model_name as $key => $value) {
+    if ($value != '') {
+        print 'Model name: ' . $value . '<br>';
+    }
+}
+
+$product_id = $simple_xml->xpath('//@Product_ID');
+echo '<h1>Product ID</h1>';
+foreach ($product_id as $key => $value) {
+    if ($value != '') {
+        print 'Product ID: ' . $value . '<br>';
+    }
 }
 
 $basePath = '/ICECAT-interface/files.index/file';
 
 
 $country_markets = $simple_xml->xpath($basePath . '/Country_Markets');
-echo '<h1>' . count($country_markets) . '</h1>';
+echo '<h1>Country Markets</h1>';
 
-for ($i = 0; $i < count($country_markets); $i++) {
-    foreach ($country_markets as $key => $value) {
-        echo '<h1>' . count($value) . '</h1>';
+// for ($i = 0; $i < count($country_markets); $i++) {
+foreach ($country_markets as $key => $value) {
+    // echo '<h1>' . count($value) . '</h1>';
         // print_r($value);
         // var_dump($value);
-        foreach ($value as $a => $val) {
-            // echo '<h1>' . count($val) . '</h1>';
-            $kids[$i][$a] = $val->attributes();
-            // var_dump($val);
-            echo $a . '-' . $val->attributes() . '<br>';
-            // echo '<br>+++++++++++++++++++++++++++<br>';
-        }
+    foreach ($value as $a => $val) {
+                    // echo '<h1>' . count($val) . '</h1>';
+        $kids[$key][$a][] = strval($val->attributes());
+                    // var_dump($val);
+        // echo $a . '-' . $val->attributes() . '<br>';
+                    // echo '<br>+++++++++++++++++++++++++++<br>';
+    }
         // print 'Market: ' . $value->children() . '<br>';
         // foreach ($value->children() as $child) {
         //     print $child;
         // }
-    }
 }
-// print_r($kids);
-$catId = $simple_xml->xpath('//@Catid');
-$ean_upc_value = $simple_xml->xpath('/ICECAT-interface/files.index/file/EAN_UPCS');
-//file/EAN_UPCS/@Value
+// }
+print_r($kids);
 
-// var_dump($ean_upc_value);
-foreach ($ean_upc_value as $key => $value) {
+
+/**
+ * CatID
+ */
+$catId = $simple_xml->xpath('//@Catid');
+echo '<h1>CatID</h1>';
+foreach ($catId as $key => $value) {
+    echo $value . '<br>';
+}
+
+$ean_upcs = $simple_xml->xpath('/ICECAT-interface/files.index/file/EAN_UPCS');
+//file/EAN_UPCS/@Value
+echo '<h1>EAN UPCS</h1>';
+// echo '<h1>' . count($ean_upcs) . '</h1>';
+foreach ($ean_upcs as $key => $value) {
     // print_r($value->xpath('//@Value'));
-    foreach ($value->children() as $key => $val) {
+    // echo '<h1>' . count($value) . '</h1>';
+    foreach ($value->children() as $a => $val) {
+        // echo '<h1>' . count($val) . '</h1>';
         // print_r($val->getName());
         // print_r($val['Value']);
         // echo gettype($val);
+        $eans[$key][$a][] = strval($val->attributes());
         // echo ($val['Value'][0]) . '<br>';
     }
     // print_r($value);
     // var_dump(gettype($value));
 }
+print_r($eans);
 // echo $path[0];
 // var_dump($simple_xml);
 echo '</pre>';
