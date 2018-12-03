@@ -40,12 +40,16 @@ while ($xml->name == 'file') {
         'Model Name' => strval($element->attributes()->Model_Name),
         'High Picture' => strval($element->attributes()->HighPic),
         'Product ID' => strval($element->attributes()->Product_ID),
-    );
-    foreach ($element->Country_Markets as $key => $value) {
-        foreach ($value as $a => $val) {
-            $kids[$key][$a][] = strval($val->attributes());
+        'Country Markets' => function () use ($element) {
+            foreach ($element->Country_Markets as $key => $value) {
+                foreach ($value as $a => $val) {
+                    $kids[$key][$a][] = strval($val->attributes());
+                    // $kids[$key][$a][] = strval($val->attributes());
+                }
+            }
+            return $kids;
         }
-    }
+    );
 
     $countIx++;
 
@@ -53,8 +57,8 @@ while ($xml->name == 'file') {
     unset($element);
 }
 // echo json_encode($files);
-// print_r($files);
-print_r($kids);
+print_r($files);
+// print_r($kids);
 print "\n";
 
 /**
