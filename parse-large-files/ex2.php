@@ -33,30 +33,16 @@ while ($xml->name == $node_name) {
     // if (strval($element->attributes()->Catid) == 827) {
     //     continue;
     // }
-    $files[] = array(
-        // 'name' => strval($element->text->name),
-        // 'price' => strval($element->price->buynow),
-        // 'currency' => strval($element->price->attributes()->curr)
+    $files[] = [
         // 'path' => strval($element->attributes()->path),
         // 'CatID' => strval($element->attributes()->Catid),
         // 'Model Name' => strval($element->attributes()->Model_Name),
         // 'High Picture' => strval($element->attributes()->HighPic),
         // 'Product ID' => strval($element->attributes()->Product_ID),
         // 'Country Markets' => $element->Country_Markets,
-        // 'M Prod ID' => $element->M_Prod_ID,
-        'EAN UPCS' => gettype($element->EAN_UPCS),
-        // 'EAN UPCS' => $element->EAN_UPCS->attributes()->Value,
-        // 'Country Markets' => function ($kids) use ($element) {
-        //     foreach ($element->Country_Markets as $key => $value) {
-        //         foreach ($value as $a => $val) {
-        //             $kids[$key][$a][] = strval($val->attributes());
-        //             // $kids[$key][$a][] = strval($val->attributes());
-        //         }
-        //     }
-        //     echo 'Heeej';
-        //     // return $kids;
-        // }
-    );
+        // 'M Prod ID' => $element->M_Prod_ID->__toString(),
+        'EAN UPCS' => $element->EAN_UPCS,
+    ];
 
     $countIx++;
 
