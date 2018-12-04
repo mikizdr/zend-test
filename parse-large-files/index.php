@@ -34,6 +34,7 @@ require 'ReadXMLFile.php';
 
 /**
  * Test with test.xml
+ * todo: problem with the same nodes names
  */
 $test = new ReadXMLFile(
     'test_configurator.xml',
