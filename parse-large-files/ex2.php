@@ -22,10 +22,12 @@ echo '<pre>';
 //     $m++;
 // }
 
-while ($xml->read() && $xml->name != 'file') {;
+$node_name = 'file';
+
+while ($xml->read() && $xml->name != $node_name) {;
 }
 // var_dump($xml->name);
-while ($xml->name == 'file') {
+while ($xml->name == $node_name) {
     $element = new SimpleXMLElement($xml->readOuterXML());
     // var_dump($element);
     // if (strval($element->attributes()->Catid) == 827) {
@@ -35,25 +37,30 @@ while ($xml->name == 'file') {
         // 'name' => strval($element->text->name),
         // 'price' => strval($element->price->buynow),
         // 'currency' => strval($element->price->attributes()->curr)
-        'path' => strval($element->attributes()->path),
-        'CatID' => strval($element->attributes()->Catid),
-        'Model Name' => strval($element->attributes()->Model_Name),
-        'High Picture' => strval($element->attributes()->HighPic),
-        'Product ID' => strval($element->attributes()->Product_ID),
-        'Country Markets' => function () use ($element) {
-            foreach ($element->Country_Markets as $key => $value) {
-                foreach ($value as $a => $val) {
-                    $kids[$key][$a][] = strval($val->attributes());
-                    // $kids[$key][$a][] = strval($val->attributes());
-                }
-            }
-            return $kids;
-        }
+        // 'path' => strval($element->attributes()->path),
+        // 'CatID' => strval($element->attributes()->Catid),
+        // 'Model Name' => strval($element->attributes()->Model_Name),
+        // 'High Picture' => strval($element->attributes()->HighPic),
+        // 'Product ID' => strval($element->attributes()->Product_ID),
+        // 'Country Markets' => $element->Country_Markets,
+        // 'M Prod ID' => $element->M_Prod_ID,
+        'EAN UPCS' => gettype($element->EAN_UPCS),
+        // 'EAN UPCS' => $element->EAN_UPCS->attributes()->Value,
+        // 'Country Markets' => function ($kids) use ($element) {
+        //     foreach ($element->Country_Markets as $key => $value) {
+        //         foreach ($value as $a => $val) {
+        //             $kids[$key][$a][] = strval($val->attributes());
+        //             // $kids[$key][$a][] = strval($val->attributes());
+        //         }
+        //     }
+        //     echo 'Heeej';
+        //     // return $kids;
+        // }
     );
 
     $countIx++;
 
-    $xml->next('file');
+    $xml->next($node_name);
     unset($element);
 }
 // echo json_encode($files);
