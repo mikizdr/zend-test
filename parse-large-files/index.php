@@ -35,20 +35,20 @@ $test = new ReadXMLFile(
 );
 
 /**
- * Test with test.xml
+ * Test with test_configurator.xml
  * todo: problem with the same nodes names
  */
-// $test = new ReadXMLFile(
-//     'test_configurator.xml',
-//     [
-//         'basketId', 'itemType', 'updateState'
-//     ],
-//     [
-//         'manufacturer', 'series', 'artNr', 'description'
-//     ],
-//     'bskArticle',
-//     'JSON'
-// );
+$test = new ReadXMLFile(
+    'test_configurator.xml',
+    [
+        'basketId', 'itemType', 'updateState' // attributes
+    ],
+    [
+        'manufacturer', 'series', 'artNr', 'description', 'features' // nodes
+    ],
+    'bskArticle',
+    'JSONsdsdf'
+);
 
 
 

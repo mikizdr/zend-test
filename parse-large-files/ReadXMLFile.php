@@ -86,8 +86,10 @@ class ReadXMLFile
                     $countryMarkets = [];
 
                     foreach ($node->children() as $child) {
-                        $attributes = $child->attributes();
-                        $countryMarkets[] = (string)$attributes['Value'];
+                        $attributes = $child;
+                        // $attributes = $child->attributes();
+                        $countryMarkets[] = (string)$attributes;
+                        // $countryMarkets[] = (string)$attributes['Value'];
                     }
 
                     $files[$k][$this->nodes[$i]] = $countryMarkets;
