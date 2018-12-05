@@ -2,8 +2,6 @@
 
 require 'ReadXMLFile.php';
 
-// Let me walk you through the code? - ok
-
 /**
  * Test with test_productindex.xml
  */
@@ -19,36 +17,38 @@ $test = new ReadXMLFile(
     'csvsdfsdf'
 );
 
-// /**
-//  * Test with test.xml
-//  */
-// $test = new ReadXMLFile(
-//     'test.xml',
-//     [
-//         'id', 'in_stock', 'is_for_sale', 'lang', 'stock_quantity',
-//     ],
-//     [
-//         'brand', 'cat'
-//     ],
-//     'prod',
-//     'JSONsdgsdg'
-// );
+/**
+ * Test with test.xml
+ */
+$test = new ReadXMLFile(
+    'test.xml',
+    [
+        'id', 'in_stock', 'is_for_sale', 'lang', 'stock_quantity',
+    ],
+    [
+        'brand', 'cat'
+    ],
+    'prod',
+    'JSONsdgsdg',
+    false
+);
 
-// /**
-//  * Test with test_configurator.xml
-//  * todo: problem with the same nodes names
-//  */
-// $test = new ReadXMLFile(
-//     'test_configurator.xml',
-//     [
-//         'basketId', 'itemType', 'updateState' // attributes
-//     ],
-//     [
-//         'manufacturer', 'series', 'artNr', 'description', 'features' // nodes
-//     ],
-//     'bskArticle',
-//     'JSONsdsdf'
-// );
+/**
+ * Test with test_configurator.xml
+ * todo: problem with the same nodes names
+ */
+$test = new ReadXMLFile(
+    'test_configurator.xml',
+    [
+        // 'basketId', 'itemType', 'updateState' // attributes
+    ],
+    [
+        // 'manufacturer', 'series', 'artNr', 'description', 'features' // nodes
+        'description', 'features' // nodes
+    ],
+    'bskArticle',
+    'JSONsdsdf'
+);
 
 
 

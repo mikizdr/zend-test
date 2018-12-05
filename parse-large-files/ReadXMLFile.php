@@ -36,19 +36,26 @@ class ReadXMLFile
      */
     protected $output_format;
 
+    /**
+     * @var boolean $node_attribute | whether the value has taken from node's attribute or from node.
+     */
+    protected $node_attribute;
+
 
     public function __construct(
-        string $url = '',
+        string $url,
         array $attributes = [],
         array $nodes = [],
         string $node_name = '',
-        string $output_format = 'JSON'
+        string $output_format = 'JSON',
+        $node_attribute = null
     ) {
         $this->url = $url;
         $this->attributes = $attributes;
         $this->nodes = $nodes;
         $this->node_name = $node_name;
         $this->output_format = $output_format;
+        $this->node_attribute = $node_attribute;
         $this->xml = new XMLReader();
     }
 
@@ -79,77 +86,72 @@ class ReadXMLFile
             }
 
             // This loop reads value for every node and child of that node
-            for ($i = 0; $i < count($this->nodes); $i++) {
-                if ($element->{$this->nodes[$i]}->count() > 0) {
-                    $node = $element->{$this->nodes[$i]};
-
-                    $countryMarkets = [];
-
-                    foreach ($node->children() as $child) {
-                        $attributes = $child->attributes();
-                        $countryMarkets[] = (string)$attributes['Value'];
-                    }
-
-                    $files[$k][$this->nodes[$i]] = $countryMarkets;
-                }
-            }
             // for ($i = 0; $i < count($this->nodes); $i++) {
             //     if ($element->{$this->nodes[$i]}->count() > 0) {
             //         $node = $element->{$this->nodes[$i]};
 
             //         $countryMarkets = [];
 
-            //         if (count($node) > 1) {
-            //             foreach ($node as $key => $iteration) {
-            //                 foreach ($iteration as $key => $child) {
-            //                     $countryMarkets[] = (string)$child;
-            //                 }
-            //             }
-            //         } else {
-            //             foreach ($node->children() as $child) {
-            //                 $attributes = $child;
-            //                 // $attributes = $child->attributes();
-            //                 $countryMarkets[] = (string)$attributes;
-            //                 // $countryMarkets[] = (string)$attributes['Value'];
+            //         foreach ($node->children() as $child) {
+            //             if ($this->node_attribute) {
+            //                 $countryMarkets[] = (string)$child->attributes()['Value'];
+            //             } else {
+            //                 $countryMarkets[] = (string)$child;
             //             }
             //         }
 
             //         $files[$k][$this->nodes[$i]] = $countryMarkets;
             //     }
             // }
-            //todo: BUT layout is not good
-            // for ($i = 0; $i < count($this->nodes); $i++) {
-            //     if ($element->{$this->nodes[$i]}->count() > 0) {
-            //         // This gives the next output
-            //         $files[$k][$this->nodes[$i]] = $element->{$this->nodes[$i]}; // So I need to iterate through this value: $element->{$this->nodes[$i]};
-            //         // it's not an array . There must be a method to get the node children. Something like ->childre() ?
-            //         // var_dump($element->{$this->nodes[$i]}); // You see? Pretty the same.
-            //         foreach ($element->{$this->nodes[$i]}->children() as $key => $value) {
-            //             $files[$k][$this->nodes[$i]] = strval($value->attributes());
-            //             // echo '<h3>' . strval($value->attributes()) . '</h3>';
-            //         }
-            //     }
-                // That's why I tried in this way:
-                // if ($element->{$this->nodes[$i]}->count() > 0) {
-                //     $files[$k][$this->nodes[$i]] = function () {
-                // foreach ($element->{$this->nodes[$i]}->children() as $key => $value) {
-                //     return $value;
-                //             // return strval($value->attributes());
-                // }
-                // // return $element->{$this->nodes[$i]};
-                //     };
-                // }
-            // }
+            $str = 'features?';
+            // Final solution but features have no value
+            for ($i = 0; $i < count($this->nodes); $i++) {
+                if ($element->{$this->nodes[$i]}->count() > 0) {
+                    $node = $element->{$this->nodes[$i]};
 
-            // With closures, this shows the whole object?!
-            // if ($element->{$this->nodes[$i]}->count() > 0) {
-            //     $files[$k][$this->nodes[$i]] = function () {
-            //         foreach ($element->{$this->nodes[$i]}->children() as $key => $value) {
-            //             return strval($value->attributes());
-            //         }
-            //         // return $element->{$this->nodes[$i]};
-            //     };
-            // }
+                    $countryMarkets = [];
+
+                    if (count($node) > 1) {
+                        foreach ($node as $a => $iteration) {
+                            if (count($iteration) > 0) {
+                                echo ('<h1>Iteration ' . $a . ' ' . count($iteration)) . '</h1>';
+                                foreach ($iteration as $b => $child) {
+                                    echo ('<h1>Child ' . $b . ' ' . count($child)) . '</h1>';
+                                    if (count($child) > 1) {
+                                        foreach ($child as $c => $kid) {
+                                            $countryMarkets[][$c] = (string)$kid . 'KIDMILKA';
+                                        }
+                                    } else {
+                                        $countryMarkets[] = (string)$child . 'CHILDMILKA';
+                                    }
+                                }
+                            } else {
+                                foreach ($iteration as $key => $child) {
+                                    echo ('<h1>Else ' . $a . ' ' . count($iteration)) . '</h1>';
+                                    if (count($child) > 1) {
+                                        foreach ($iteration as $key => $kid) {
+                                            $countryMarkets[] = (string)$kid . 'KIDlea';
+                                        }
+                                    } else {
+                                        $countryMarkets[] = (string)$child . 'iterationlea';
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        foreach ($node->children() as $child) {
+                            if ($this->node_attribute) {
+                                // if (count($node) > 1) {
+                                $countryMarkets[] = (string)$child->attributes()['Value'] . $str; // Hard coded
+                            } else {
+                                $countryMarkets[] = (string)$child;
+                            }
+                        }
+                    }
+
+                    $files[$k][$this->nodes[$i]] = $countryMarkets;
+                }
+            }
 
             $k++;
             $this->xml->next($this->node_name);
