@@ -110,45 +110,92 @@ class ReadXMLFile
                     $node = $element->{$this->nodes[$i]};
 
                     $countryMarkets = [];
+                    $this->factorialNode($node);
+                    // if (count($node) > 1) {
+                    //     foreach ($node as $a => $iteration) {
+                    //         if (count($iteration) > 1) {
+                    //             echo ('<h1>Iteration ' . $a . ' ' . count($iteration)) . '</h1>';
+                    //             foreach ($iteration as $b => $child) {
+                    //             // for ($m = 0; $m < count($iteration); $m++) {
+                    //                 echo ('<h1>Child ' . $b . ' ' . count($child)) . '</h1>';
+                    //                 // if (count($child) > 1) {
+                    //                 //     foreach ($child as $c => $kid) {
+                    //                 //         $countryMarkets[][$c] = (string)$kid . 'KIDMILKA';
+                    //                 $kukuriku = [];
+                    //                 //     }
+                    //                 // } else {
+                    //                 // var_dump($child);
+                    //                 $kukuriku[] = (string)$child . 'CHILDMILKA';
+                    //                 // $countryMarkets[][strval($child->attributes()->lang)] = (string)$child . 'CHILDMILKA';
+                    //                 // }
+                    //             }
+                    //             echo ('<h1>KUKURIKU: ' . count($kukuriku) . '</h1>');
+                    //             $countryMarkets[] = $kukuriku;
+                    //         } else {
+                    //             foreach ($iteration as $key => $child) {
+                    //                 echo ('<h1>Else ' . $a . ' ' . count($iteration)) . '</h1>';
+                    //                 if (count($child) > 1) {
+                    //                     foreach ($iteration as $key => $kid) {
+                    //                         $countryMarkets[] = (string)$kid . 'KIDlea';
+                    //                     }
+                    //                 } else {
+                    //                     $countryMarkets[] = (string)$child . 'iterationlea';
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
+                    // } else {
+                    //     foreach ($node->children() as $child) {
+                    //         if ($this->node_attribute) {
+                    //             // if (count($node) > 1) {
+                    //             $countryMarkets[] = (string)$child->attributes()['Value'] . $str; // Hard coded
+                    //         } else {
+                    //             $countryMarkets[] = (string)$child;
+                    //         }
+                    //     }
+                    // }
 
-                    if (count($node) > 1) {
-                        foreach ($node as $a => $iteration) {
-                            if (count($iteration) > 0) {
-                                echo ('<h1>Iteration ' . $a . ' ' . count($iteration)) . '</h1>';
-                                foreach ($iteration as $b => $child) {
-                                    echo ('<h1>Child ' . $b . ' ' . count($child)) . '</h1>';
-                                    if (count($child) > 1) {
-                                        foreach ($child as $c => $kid) {
-                                            $countryMarkets[][$c] = (string)$kid . 'KIDMILKA';
-                                        }
-                                    } else {
-                                        $countryMarkets[] = (string)$child . 'CHILDMILKA';
-                                    }
-                                }
-                            } else {
-                                foreach ($iteration as $key => $child) {
-                                    echo ('<h1>Else ' . $a . ' ' . count($iteration)) . '</h1>';
-                                    if (count($child) > 1) {
-                                        foreach ($iteration as $key => $kid) {
-                                            $countryMarkets[] = (string)$kid . 'KIDlea';
-                                        }
-                                    } else {
-                                        $countryMarkets[] = (string)$child . 'iterationlea';
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        foreach ($node->children() as $child) {
-                            if ($this->node_attribute) {
-                                // if (count($node) > 1) {
-                                $countryMarkets[] = (string)$child->attributes()['Value'] . $str; // Hard coded
-                            } else {
-                                $countryMarkets[] = (string)$child;
-                            }
-                        }
-                    }
 
+
+                    // if (count($node) > 1) {
+                    //     foreach ($node as $a => $iteration) {
+                    //         if (count($iteration) > 1) {
+                    //             echo ('<h1>Iteration ' . $a . ' ' . count($iteration)) . '</h1>';
+                    //             foreach ($iteration as $b => $child) {
+                    //                 // echo ('<h1>Child ' . $b . ' ' . count($child)) . '</h1>';
+                    //                 // if (count($child) > 1) {
+                    //                 //     foreach ($child as $c => $kid) {
+                    //                 //         $countryMarkets[][$c] = (string)$kid . 'KIDMILKA';
+                    //                 //     }
+                    //                 // } else {
+                    //                 // var_dump($child);
+                    //                 $countryMarkets[][$child->getName()] = (string)$child . 'CHILDMILKA';
+                    //                 // $countryMarkets[][strval($child->attributes()->lang)] = (string)$child . 'CHILDMILKA';
+                    //                 // }
+                    //             }
+                    //         } else {
+                    //             foreach ($iteration as $key => $child) {
+                    //                 echo ('<h1>Else ' . $a . ' ' . count($iteration)) . '</h1>';
+                    //                 if (count($child) > 1) {
+                    //                     foreach ($iteration as $key => $kid) {
+                    //                         $countryMarkets[] = (string)$kid . 'KIDlea';
+                    //                     }
+                    //                 } else {
+                    //                     $countryMarkets[][$child->getName()] = (string)$child . 'iterationlea';
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
+                    // } else {
+                    //     foreach ($node->children() as $child) {
+                    //         if ($this->node_attribute) {
+                    //             // if (count($node) > 1) {
+                    //             $countryMarkets[] = (string)$child->attributes()['Value'] . $str; // Hard coded
+                    //         } else {
+                    //             $countryMarkets[] = (string)$child;
+                    //         }
+                    //     }
+                    // }
                     $files[$k][$this->nodes[$i]] = $countryMarkets;
                 }
             }
@@ -195,5 +242,37 @@ class ReadXMLFile
     public function filterData()
     {
         return;
+    }
+
+    /**
+     * @param SimpleXMLElement $node
+     */
+    public function factorialNode(SimpleXMLElement $node)
+    {
+        $node_values = [];
+        foreach ($node as $key => $value) {
+            if (count($value) > 0) {
+                $this->factorialNode($value);
+            } else {
+                $node_values[] = (string)$node;
+            }
+        }
+        return $node_values;
+    }
+
+    public function factorial($n)
+    {
+ 
+        // Base case
+        if ($n == 0) {
+            echo "Base case: \$n = 0. Returning 1...<br>";
+            return 1;
+        }
+       
+        // Recursion
+        echo "\$n = $n: Computing $n * factorial( " . ($n - 1) . " )...<br>";
+        $result = ($n * $this->factorial($n - 1));
+        echo "Result of $n * factorial( " . ($n - 1) . " ) = $result. Returning $result...<br>";
+        return $result;
     }
 }
