@@ -108,34 +108,31 @@ class ReadXMLFile
             for ($i = 0; $i < count($this->nodes); $i++) {
                 if ($element->{$this->nodes[$i]}->count() > 0) {
                     $node = $element->{$this->nodes[$i]};
-
                     $countryMarkets = [];
                     // $this->factorialNode($node);
-                    if (count($node) > 1) {
+                    if (count($node) > 0) {
                         foreach ($node as $a => $iteration) {
                             if (count($iteration) > 1) {
                                 echo ('<h1>Iteration ' . $a . ' ' . count($iteration)) . '</h1>';
                                 foreach ($iteration as $b => $child) {
-                                // for ($m = 0; $m < count($iteration); $m++) {
-                                    echo ('<h1>Child ' . $b . ' ' . count($child)) . '</h1>';
-                                    // if (count($child) > 1) {
-                                    //     foreach ($child as $c => $kid) {
-                                    //         $countryMarkets[][$c] = (string)$kid . 'KIDMILKA';
-                                    //     }
-                                    // } else {
-                                    // var_dump($child);
-                                    $countryMarkets[] = (string)$child . 'CHILDMILKA';
-                                    // }
+                                    if (count($child) > 0) {
+                                        echo ('<h1>Child ' . $b . ' ' . count($child)) . '</h1>';
+                                        foreach ($child as $c => $kid) {
+                                            $countryMarkets[][$c] = (string)$kid . 'KIDMILKA';
+                                        }
+                                    } else {
+                                        $countryMarkets[] = (string)$child . 'CHILDMILKA';
+                                    }
                                 }
                             } else {
                                 foreach ($iteration as $key => $child) {
                                     echo ('<h1>Else ' . $a . ' ' . count($iteration)) . '</h1>';
-                                    if (count($child) > 1) {
+                                    if (count($child) > 0) {
                                         foreach ($iteration as $key => $kid) {
-                                            $countryMarkets[] = (string)$kid . 'KIDlea';
+                                            $countryMarkets[] = (string)$kid . 'else foreach Lea > 0 foreach';
                                         }
                                     } else {
-                                        $countryMarkets[] = (string)$child . 'iterationlea';
+                                        $countryMarkets[] = (string)$child . 'else foreach else Lea';
                                     }
                                 }
                             }

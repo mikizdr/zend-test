@@ -44,7 +44,7 @@ $test = new ReadXMLFile(
     ],
     [
         // 'manufacturer', 'series', 'artNr', 'description', 'features' // nodes
-        'description', 'features' // nodes
+        'features' // nodes
     ],
     'bskArticle',
     'JSONsdsdf'
