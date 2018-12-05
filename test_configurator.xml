@@ -17,7 +17,7 @@
 	<text lang='en'>Monitor arm (desk mounted)</text>
       </description>
       <description type='long' default='1'>
-	<text lang='en'>Monitor arm (desk mounted)</text>
+	<text lang='en'>Monitor arm (desk UNmounted)</text>
       </description>
       <description type='features' default='0'>
 	<text lang='en'>Colour: Silver/white
