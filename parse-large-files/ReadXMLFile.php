@@ -85,24 +85,38 @@ class ReadXMLFile
 
                     $countryMarkets = [];
 
-                    if (count($node) > 1) {
-                        foreach ($node as $key => $iteration) {
-                            foreach ($iteration as $key => $child) {
-                                $countryMarkets[] = (string)$child;
-                            }
-                        }
-                    } else {
-                        foreach ($node->children() as $child) {
-                            $attributes = $child;
-                            // $attributes = $child->attributes();
-                            $countryMarkets[] = (string)$attributes;
-                            // $countryMarkets[] = (string)$attributes['Value'];
-                        }
+                    foreach ($node->children() as $child) {
+                        $attributes = $child->attributes();
+                        $countryMarkets[] = (string)$attributes['Value'];
                     }
 
                     $files[$k][$this->nodes[$i]] = $countryMarkets;
                 }
             }
+            // for ($i = 0; $i < count($this->nodes); $i++) {
+            //     if ($element->{$this->nodes[$i]}->count() > 0) {
+            //         $node = $element->{$this->nodes[$i]};
+
+            //         $countryMarkets = [];
+
+            //         if (count($node) > 1) {
+            //             foreach ($node as $key => $iteration) {
+            //                 foreach ($iteration as $key => $child) {
+            //                     $countryMarkets[] = (string)$child;
+            //                 }
+            //             }
+            //         } else {
+            //             foreach ($node->children() as $child) {
+            //                 $attributes = $child;
+            //                 // $attributes = $child->attributes();
+            //                 $countryMarkets[] = (string)$attributes;
+            //                 // $countryMarkets[] = (string)$attributes['Value'];
+            //             }
+            //         }
+
+            //         $files[$k][$this->nodes[$i]] = $countryMarkets;
+            //     }
+            // }
             //todo: BUT layout is not good
             // for ($i = 0; $i < count($this->nodes); $i++) {
             //     if ($element->{$this->nodes[$i]}->count() > 0) {
