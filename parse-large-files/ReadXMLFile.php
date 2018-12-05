@@ -52,7 +52,7 @@ class ReadXMLFile
     {
         $this->xml->open($this->url);
 
-        //todo: what this lones is doing?
+        //todo: what this line is doing?
         while ($this->xml->read() && $this->xml->name != $this->node_name) {
         }
 
@@ -64,8 +64,19 @@ class ReadXMLFile
             }
             //todo: layout is not good
             for ($i = 0; $i < count($this->nodes); $i++) {
-                $files[$k][$this->nodes[$i]] = $element->{$this->nodes[$i]};
+                if ($element->{$this->nodes[$i]}->count() > 0) {
+                    $files[$k][$this->nodes[$i]] = $element->{$this->nodes[$i]};
+                }
             }
+
+            // if ($element->{$this->nodes[$i]}->count() > 0) {
+            //     $files[$k][$this->nodes[$i]] = function () {
+            //         foreach ($element->{$this->nodes[$i]}->children() as $key => $value) {
+            //             return strval($value->attributes());
+            //         }
+            //         // return $element->{$this->nodes[$i]};
+            //     };
+            // }
 
             $k++;
             $this->xml->next($this->node_name);

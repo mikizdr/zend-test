@@ -32,7 +32,7 @@ while ($xml->name == $node_name) {
         $output_values[2] => strval($element->attributes()->{$output_values[2]}),
         $output_values[3] => strval($element->attributes()->{$output_values[3]}),
         $output_values[4] => strval($element->attributes()->{$output_values[4]}),
-        // 'Country Markets' => $element->Country_Markets,
+        'Country Markets' => $element->Country_Markets,
         // 'EAN UPCS' => $element->EAN_UPCS,
         // 'M Prod ID' => $element->M_Prod_ID->__toString(),
     ];
