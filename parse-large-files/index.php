@@ -1,22 +1,7 @@
 <?php
 
 require 'ReadXMLFile.php';
-
-/**
- * Test with test_productindex.xml
- */
-$test = new ReadXMLFile(
-    'test_productindex.xml',
-    [
-        'Product_ID', 'Catid', 'Model_Name', 'path', 'HighPic',
-    ],
-    [
-        'Country_Markets', 'EAN_UPCS'
-    ],
-    'file',
-    'csvsdfsdf',
-    'false' // Read from attribute
-);
+// require 'ReadXMLFile.1.php';
 
 /**
  * Test with test.xml
@@ -35,6 +20,23 @@ $test = new ReadXMLFile(
 // );
 
 /**
+ * Test with test_productindex.xml
+ */
+$test = new ReadXMLFile(
+    'test_productindex.xml',
+    [
+        'Product_ID', 'Catid', 'Model_Name', 'path', 'HighPic',
+    ],
+    [
+        'Country_Markets', 'EAN_UPCS'
+    ],
+    'file',
+    '',
+    'false', // Read from attribute
+    [827]
+);
+
+/**
  * Test with test_configurator.xml
  * todo: problem with the same nodes names
  */
@@ -44,11 +46,11 @@ $test = new ReadXMLFile(
 //         // 'basketId', 'itemType', 'updateState' // attributes
 //     ],
 //     [
-//         'manufacturer', 'series', 'artNr', 'description', 'features' // nodes
-//         // 'priceComponents', 'description' // nodes
+//         // 'manufacturer', 'series', 'artNr', 'description', 'features' // nodes
+//         'description' // nodes
 //     ],
 //     'bskArticle',
-//     'JSONsdsdf'
+//     '' // Output format (JSON, csv, ...). Default is JSON.
 // );
 
 

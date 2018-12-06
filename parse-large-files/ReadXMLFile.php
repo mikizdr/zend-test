@@ -34,30 +34,46 @@ class ReadXMLFile
     /**
      * @var string $output_format | JSON, csv, txt, print_r, ....
      */
-    protected $output_format;
+    protected $output_format = 'JSON';
 
     /**
      * @var boolean $node_attribute | whether the value has taken from node's attribute or from node.
      */
     protected $node_attribute;
 
+    /**
+     * @var array $node_values | contains the value from nodes
+     */
     protected $node_values = [];
 
+    /**
+     * @var array $attribute_values
+     */
+    protected $attribute_values;
+
+    /**
+     * @var boolean $attribute_filter
+     */
+    protected $attribute_filter = false;
 
     public function __construct(
         string $url,
         array $attributes = [],
         array $nodes = [],
         string $node_name = '',
-        string $output_format = 'JSON',
-        $node_attribute = null
+        string $output_format,
+        $node_attribute = null,
+        array $attribute_values
     ) {
         $this->url = $url;
         $this->attributes = $attributes;
         $this->nodes = $nodes;
         $this->node_name = $node_name;
-        $this->output_format = $output_format;
+        if ($output_format != '') {
+            $this->output_format = $output_format;
+        }
         $this->node_attribute = $node_attribute;
+        $this->attribute_values = $attribute_values;
         $this->xml = new XMLReader();
     }
 
@@ -69,139 +85,30 @@ class ReadXMLFile
     {
         $this->xml->open($this->url);
 
-        //todo: what this line is doing?
-        /**
-         * This is the strange thing. Without this line, script breaks.
-         */
         // move to the first <file /> node
         while ($this->xml->read() && $this->xml->name != $this->node_name) {
         }
 
-        // var_dump($this->xml->name);
         $k = 0;
         while ($this->xml->name == $this->node_name) {
             $element = new SimpleXMLElement($this->xml->readOuterXML());
 
-            // This loop pull out the values for attributes
+            // This loop pull out the values from attributes
             for ($i = 0; $i < count($this->attributes); $i++) {
                 $files[$k][$this->attributes[$i]] = strval($element->attributes()->{$this->attributes[$i]});
             }
 
-            // This loop reads value for every node and child of that node
-            // for ($i = 0; $i < count($this->nodes); $i++) {
-            //     if ($element->{$this->nodes[$i]}->count() > 0) {
-            //         $node = $element->{$this->nodes[$i]};
-
-            //         $countryMarkets = [];
-
-            //         foreach ($node->children() as $child) {
-            //             if ($this->node_attribute) {
-            //                 $countryMarkets[] = (string)$child->attributes()['Value'];
-            //             } else {
-            //                 $countryMarkets[] = (string)$child;
-            //             }
-            //         }
-
-            //         $files[$k][$this->nodes[$i]] = $countryMarkets;
-            //     }
-            // }
-            $str = 'features?';
-            // Final solution but features have no value
+            // Extract data from node values
             for ($i = 0; $i < count($this->nodes); $i++) {
                 if ($element->{$this->nodes[$i]}->count() > 0) {
                     $node = $element->{$this->nodes[$i]};
-                    $countryMarkets = [];
-                    
-                    // if (count($node) > 0) {
-                    //     foreach ($node as $a => $parent) {
-                    //         if (count($parent) > 0) {
-                    //             foreach ($parent as $b => $child) {
-                    //                 if (count($child) > 0) {
-                    //                     foreach ($child as $c => $grandchild) {
-                    //                         if (count($grandchild) > 0) {
-                    //                             foreach ($grandchild as $d => $grandgrandchild) {
-                    //                                 $countryMarkets[] = (string)$grandgrandchild . 'GRAND GRAND CHILD';
-                    //                             }
-                    //                         } else {
-                    //                             if ($this->node_attribute) {
-                    //                                 $countryMarkets[] = (string)$grandchild->attributes()['Value'] . $str; // Hard coded
-                    //                             } else {
-                    //                                 $countryMarkets[] = (string)$grandchild;
-                    //                             }
-                    //                             // $countryMarkets[] = (string)$grandchild . 'ELSE GRAND CHILD';
-                    //                         }
-                    //                     }
-                    //                 } else {
-                    //                     if ($this->node_attribute) {
-                    //                         $countryMarkets[] = (string)$child->attributes()['Value'] . $str; // Hard coded
-                    //                     } else {
-                    //                         $countryMarkets[] = (string)$child;
-                    //                     }
-                    //                     // $countryMarkets[] = (string)$child . 'ELSE CHILD';
-                    //                 }
-                    //             }
-                    //         } else {
-                    //             if ($this->node_attribute) {
-                    //                 $countryMarkets[] = (string)$parent->attributes()['Value'] . $str; // Hard coded
-                    //             } else {
-                    //                 $countryMarkets[] = (string)$parent;
-                    //             }
-                    //             // $countryMarkets[] = (string)$child . 'ELSE PARENT';
-                    //         }
-                    //     }
-                    // } else {
-                    //     // foreach ($node->children() as $child) {
-                    //     if ($this->node_attribute) {
-                    //             // if (count($node) > 1) {
-                    //         $countryMarkets[] = (string)$node->attributes()['Value'] . $str; // Hard coded
-                    //     } else {
-                    //         $countryMarkets[] = (string)$node;
-                    //     }
-                    //     // }
-                    // }
 
+                    /**
+                     * //------ Deleted contents -------//
+                     */
 
-
-                    // if (count($node) > 1) {
-                    //     foreach ($node as $a => $parent) {
-                    //         if (count($parent) > 1) {
-                    //             echo ('<h1>parent ' . $a . ' ' . count($parent)) . '</h1>';
-                    //             foreach ($parent as $b => $child) {
-                    //                 // echo ('<h1>Child ' . $b . ' ' . count($child)) . '</h1>';
-                    //                 // if (count($child) > 1) {
-                    //                 //     foreach ($child as $c => $kid) {
-                    //                 //         $countryMarkets[][$c] = (string)$kid . 'KIDMILKA';
-                    //                 //     }
-                    //                 // } else {
-                    //                 // var_dump($child);
-                    //                 $countryMarkets[][$child->getName()] = (string)$child . 'CHILDMILKA';
-                    //                 // $countryMarkets[][strval($child->attributes()->lang)] = (string)$child . 'CHILDMILKA';
-                    //                 // }
-                    //             }
-                    //         } else {
-                    //             foreach ($parent as $key => $child) {
-                    //                 echo ('<h1>Else ' . $a . ' ' . count($parent)) . '</h1>';
-                    //                 if (count($child) > 1) {
-                    //                     foreach ($parent as $key => $kid) {
-                    //                         $countryMarkets[] = (string)$kid . 'KIDlea';
-                    //                     }
-                    //                 } else {
-                    //                     $countryMarkets[][$child->getName()] = (string)$child . 'parentlea';
-                    //                 }
-                    //             }
-                    //         }
-                    //     }
-                    // } else {
-                    //     foreach ($node->children() as $child) {
-                    //         if ($this->node_attribute) {
-                    //             // if (count($node) > 1) {
-                    //             $countryMarkets[] = (string)$child->attributes()['Value'] . $str; // Hard coded
-                    //         } else {
-                    //             $countryMarkets[] = (string)$child;
-                    //         }
-                    //     }
-                    // }
-                    $files[$k][$this->nodes[$i]] = $this->factorialNode($node);
+                    $files[$k][$this->nodes[$i]][(string)$element->{$this->nodes[$i]}->attributes()->type] = $this->factorialNode($node);
+                    $this->node_values = [];
                 }
             }
 
@@ -254,73 +161,24 @@ class ReadXMLFile
      */
     public function factorialNode(SimpleXMLElement $node)
     {
+        //todo: here can be implemented solution for deciding how deep the loop go into the tree level
+        // current solution roll out every value from considered node, even the deepest one and put that value in $node_values array
 
-        $str = '------factorialNode';
+        $str = '------factorialNode'; // for orientation
         if (count($node) > 0) {
             foreach ($node as $a => $parent) {
-                // Here repeating is beginning
-                // var_dump(count($parent));
                 $this->factorialNode($parent);
-                // die;
-                // if (count($parent) > 0) {
-                //     foreach ($parent as $b => $child) {
-                //         if (count($child) > 0) {
-                //             foreach ($child as $c => $grandchild) {
-                //                 if (count($grandchild) > 0) {
-                //                     foreach ($grandchild as $d => $grandgrandchild) {
-                //                         $node_values[] = (string)$grandgrandchild . 'GRAND GRAND CHILD';
-                //                     }
-                //                 } else {
-                //                     if ($this->node_attribute) {
-                //                         $node_values[] = (string)$grandchild->attributes()['Value'] . $str; // Hard coded
-                //                     } else {
-                //                         $node_values[] = (string)$grandchild;
-                //                     }
-                //                 }
-                //             }
-                //         } else {
-                //             if ($this->node_attribute) {
-                //                 $node_values[] = (string)$child->attributes()['Value'] . $str; // Hard coded
-                //             } else {
-                //                 $node_values[] = (string)$child;
-                //             }
-                //         }
-                //     }
-                // } else {
-                //     if ($this->node_attribute) {
-                //         $node_values[] = (string)$parent->attributes()['Value'] . $str; // Hard coded
-                //     } else {
-                //         $node_values[] = (string)$parent;
-                //     }
-                // }
             }
         } else {
-            // $node_values = [];
             if ($this->node_attribute) {
-                $this->node_values[] = (string)$node->attributes()['Value'] . $str; // Hard coded
-                // var_dump($node_values);
-                // die;
+                $this->node_values[] = (string)$node->attributes()['Value'] . $str; // Hard coded value for required output Country_Market, EAN_UPCS. Every node can have different names of attributes. So this can be implemented as an option but it would have a lot of options and that leads to the whole project or micro framework.
             } else {
+                // $this->node_values[$node->attributes()->type] = (string)$node;
                 $this->node_values[] = (string)$node;
             }
         }
-        // var_dump($node_values);
+
         return $this->node_values;
     }
 
-    public function factorial($n)
-    {
- 
-        // Base case
-        if ($n == 0) {
-            echo "Base case: \$n = 0. Returning 1...<br>";
-            return 1;
-        }
-       
-        // Recursion
-        echo "\$n = $n: Computing $n * factorial( " . ($n - 1) . " )...<br>";
-        $result = ($n * $this->factorial($n - 1));
-        echo "Result of $n * factorial( " . ($n - 1) . " ) = $result. Returning $result...<br>";
-        return $result;
-    }
 }
