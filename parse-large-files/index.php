@@ -1,28 +1,11 @@
 <?php
 
 require 'ReadXMLFile.php';
-// require 'ReadXMLFile.1.php';
-
-/**
- * Test with test.xml
- */
-$test1 = new ReadXMLFile(
-    'test.xml',
-    [
-        'id', 'in_stock', 'is_for_sale', 'lang', 'stock_quantity',
-    ],
-    [
-        'brand', 'cat'
-    ],
-    'prod',
-    'JSONsdgsdg',
-    false
-);
 
 /**
  * Test with test_productindex.xml
  */
-$test2 = new ReadXMLFile(
+$test1 = new ReadXMLFile(
     'test_productindex.xml',
     [
         'Product_ID', 'Catid', 'Model_Name', 'path', 'HighPic',  // selected attributes for output
@@ -31,7 +14,7 @@ $test2 = new ReadXMLFile(
         'Country_Markets', 'EAN_UPCS'                        // selected nodes for output
     ],
     'file',                                                  // main node name
-    'csv',                                               // output format
+    'JSON',                                                   // output format
     true,                                                    // Read from attribute values of nodes 'Country_Markets', 'EAN_UPCS'
     'Product_ID',                                            // the name of attribute by which the data will be filtered out
     // 'Catid',
@@ -42,9 +25,9 @@ $test2 = new ReadXMLFile(
 
 /**
  * Test with test_configurator.xml
- * todo: problem with the same nodes names
+ * todo: problem with the same nodes names. It should be resolved in custom script.
  */
-$test3 = new ReadXMLFile(
+$test2 = new ReadXMLFile(
     'test_configurator.xml',
     [
         'basketId', 'itemType', 'updateState' // attributes
@@ -61,5 +44,5 @@ $test3 = new ReadXMLFile(
 
 
 echo '<pre>';
-echo $test3->printResult();
+echo $test1->printResult();
 echo '</pre>';

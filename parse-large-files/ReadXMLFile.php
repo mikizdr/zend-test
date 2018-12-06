@@ -13,7 +13,7 @@
  * @link       XMLReader http://php.net/manual/en/book.xmlreader.php  
  * @author     Mirosalv Zdravkovic <mirosalv.zdravkovic@gmail.com>
  */
-class ReadXMLFile
+class ReadXMLFile extends Exception
 {
     /**
      * @var string $url | path to xml file
@@ -101,14 +101,22 @@ class ReadXMLFile
     }
 
     /**
-     * Loop through every node
+     * Loop through every node.
      * The solution is pretty general. I tested on several files and it works more or less accurate.
      */
     public function iterateThroughNodes()
     {
+        try {
+            if (empty($this->url) || is_null($this->url)) {
+                throw new Exception($this->errorMessage());
+            }
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+
         $this->xml->open($this->url);
 
-        // move to the first <file /> node
+        // Move to the first <file /> node
         while ($this->xml->read() && $this->xml->name != $this->nodeName) {
         }
 
@@ -220,4 +228,12 @@ class ReadXMLFile
         return $this->nodeValues;
     }
 
+    /**
+     * Exception handler method
+     */
+    public function errorMessage()
+    {
+        $message = '<strong>Error on line ' . $this->getLine() . ' in ' . $this->getFile() . ': this is not a valid URL to an XML file.</strong>';
+        return $message;
+    }
 }
