@@ -2,3 +2,4 @@
 *.gz
 !test.xml
 !test_productindex.xml
+*.zip
