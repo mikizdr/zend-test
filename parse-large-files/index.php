@@ -6,55 +6,60 @@ require 'ReadXMLFile.php';
 /**
  * Test with test.xml
  */
-// $test = new ReadXMLFile(
-//     'test.xml',
-//     [
-//         'id', 'in_stock', 'is_for_sale', 'lang', 'stock_quantity',
-//     ],
-//     [
-//         'brand', 'cat'
-//     ],
-//     'prod',
-//     'JSONsdgsdg',
-//     false
-// );
+$test1 = new ReadXMLFile(
+    'test.xml',
+    [
+        'id', 'in_stock', 'is_for_sale', 'lang', 'stock_quantity',
+    ],
+    [
+        'brand', 'cat'
+    ],
+    'prod',
+    'JSONsdgsdg',
+    false
+);
 
 /**
  * Test with test_productindex.xml
  */
-$test = new ReadXMLFile(
+$test2 = new ReadXMLFile(
     'test_productindex.xml',
     [
-        'Product_ID', 'Catid', 'Model_Name', 'path', 'HighPic',
+        'Product_ID', 'Catid', 'Model_Name', 'path', 'HighPic',  // selected attributes for output
     ],
     [
-        'Country_Markets', 'EAN_UPCS'
+        'Country_Markets', 'EAN_UPCS'                        // selected nodes for output
     ],
-    'file',
-    '',
-    'false', // Read from attribute
-    [827]
+    'file',                                                  // main node name
+    'sdfdf',                                               // output format
+    true,                                                    // Read from attribute values of nodes 'Country_Markets', 'EAN_UPCS'
+    'Product_ID',                                            // the name of attribute by which the data will be filtered out
+    // 'Catid',
+    [44673],                                                 // filter by this value for Product_ID
+    // [587, 827],                                           // filter by this value for Catid
+    false                                                    // if true the data will be filtered out by previous values
 );
 
 /**
  * Test with test_configurator.xml
  * todo: problem with the same nodes names
  */
-// $test = new ReadXMLFile(
-//     'test_configurator.xml',
-//     [
-//         // 'basketId', 'itemType', 'updateState' // attributes
-//     ],
-//     [
-//         // 'manufacturer', 'series', 'artNr', 'description', 'features' // nodes
-//         'description' // nodes
-//     ],
-//     'bskArticle',
-//     '' // Output format (JSON, csv, ...). Default is JSON.
-// );
+$test3 = new ReadXMLFile(
+    'test_configurator.xml',
+    [
+        'basketId', 'itemType', 'updateState' // attributes
+    ],
+    [
+        // 'manufacturer', 'series', 'artNr', 'description', 'features' // nodes
+        // 'description' // nodes
+        'features' // nodes
+    ],
+    'bskArticle',
+    '' // Output format (JSON, csv, ...). Default is JSON.
+);
 
 
 
 echo '<pre>';
-echo $test->printResult();
+echo $test2->printResult();
 echo '</pre>';

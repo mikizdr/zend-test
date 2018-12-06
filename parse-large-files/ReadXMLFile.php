@@ -1,79 +1,102 @@
 <?php
 
 /**
- * This is the main class
+ * This is the main class for parsing an XML file and to process the data from it.
+ * The main point is __construct method where everything is prepared for parsing and extracting the data.
+ * XMLReader is used because of dealing with huge XML files. The reader acts as a cursor going forward on 
+ * the document stream and stopping at each node on the way.
+ * The SimpleXML extension provides a very simple and easily usable toolset to convert XML to an 
+ * object that can be processed with normal property selectors and array iterators.
  * 
+ * @category   XML
+ * @link       SimpleXMLElement class http://php.net/manual/en/class.simplexmlelement.php
+ * @link       XMLReader http://php.net/manual/en/book.xmlreader.php  
+ * @author     Mirosalv Zdravkovic <mirosalv.zdravkovic@gmail.com>
  */
 class ReadXMLFile
 {
     /**
-     * @var string $url path to xml file
+     * @var string $url | path to xml file
      */
     protected $url;
 
     /**
-     * @var array $attributes values of the attributes that are re:-)quired in the output
+     * @var array $attributes | values of the attributes that are re:-)quired in the output
      */
     protected $attributes;
 
     /**
-     * @var array $nodes names of nodes which values are required in the output
+     * @var array $nodes | names of nodes which values are required in the output
      */
     protected $nodes;
 
     /**
-     * @var string $node_name name od the main node (so for this case - file)
+     * @var string $nodeName | name od the main node (so for this case - file)
      */
-    protected $node_name;
+    protected $nodeName;
 
     /**
-     * @var XMLReader $xml - used to parse large XML files. It walks node by node.
+     * @var XMLReader $xml | used to parse large XML files. It walks node by node.
      */
     protected $xml;
 
     /**
-     * @var string $output_format | JSON, csv, txt, print_r, ....
+     * @var string $outputFormat | JSON, csv, txt, print_r, ....
      */
-    protected $output_format = 'JSON';
+    protected $outputFormat = 'JSON';
 
     /**
-     * @var boolean $node_attribute | whether the value has taken from node's attribute or from node.
+     * @var boolean $nodeAttribute | whether the value has taken from node's attribute or from node.
      */
-    protected $node_attribute;
+    protected $nodeAttribute;
 
     /**
-     * @var array $node_values | contains the value from nodes
+     * @var array $nodeValues | contains the value from nodes
      */
-    protected $node_values = [];
+    protected $nodeValues = [];
 
     /**
-     * @var array $attribute_values
+     * @var array $attributeName | The name of attribute for filtering data. NOTE: this can be an array
      */
-    protected $attribute_values;
+    protected $attributeName = 'Catid';
 
     /**
-     * @var boolean $attribute_filter
+     * @var array $attributeValues | values for attributes by which the data are filtered
      */
-    protected $attribute_filter = false;
+    protected $attributeValues;
+
+    /**
+     * @var string $attributeFilter | Decides whether the data will be filtered
+     */
+    protected $attributeFilter = false;
+
+    /**
+     * @var array $outputArray
+     */
+    protected $outputArray = [];
 
     public function __construct(
         string $url,
         array $attributes = [],
         array $nodes = [],
-        string $node_name = '',
-        string $output_format,
-        $node_attribute = null,
-        array $attribute_values
+        string $nodeName = '',
+        string $outputFormat,
+        $nodeAttribute = null,
+        string $attributeName = '',
+        array $attributeValues = [],
+        $attributeFilter = ''
     ) {
         $this->url = $url;
         $this->attributes = $attributes;
         $this->nodes = $nodes;
-        $this->node_name = $node_name;
-        if ($output_format != '') {
-            $this->output_format = $output_format;
+        $this->nodeName = $nodeName;
+        if ($outputFormat != '') {
+            $this->outputFormat = $outputFormat;
         }
-        $this->node_attribute = $node_attribute;
-        $this->attribute_values = $attribute_values;
+        $this->nodeAttribute = $nodeAttribute;
+        $this->attributeName = $attributeName;
+        $this->attributeValues = $attributeValues;
+        $this->attributeFilter = $attributeFilter;
         $this->xml = new XMLReader();
     }
 
@@ -86,11 +109,11 @@ class ReadXMLFile
         $this->xml->open($this->url);
 
         // move to the first <file /> node
-        while ($this->xml->read() && $this->xml->name != $this->node_name) {
+        while ($this->xml->read() && $this->xml->name != $this->nodeName) {
         }
 
         $k = 0;
-        while ($this->xml->name == $this->node_name) {
+        while ($this->xml->name == $this->nodeName) {
             $element = new SimpleXMLElement($this->xml->readOuterXML());
 
             // This loop pull out the values from attributes
@@ -101,22 +124,25 @@ class ReadXMLFile
             // Extract data from node values
             for ($i = 0; $i < count($this->nodes); $i++) {
                 if ($element->{$this->nodes[$i]}->count() > 0) {
-                    $node = $element->{$this->nodes[$i]};
-
-                    /**
-                     * //------ Deleted contents -------//
-                     */
-
-                    $files[$k][$this->nodes[$i]][(string)$element->{$this->nodes[$i]}->attributes()->type] = $this->factorialNode($node);
-                    $this->node_values = [];
+                    $currentNode = $element->{$this->nodes[$i]};
+                    $files[$k][$this->nodes[$i]] = $this->factorialNode($currentNode);
+                    $this->nodeValues = [];
                 }
             }
 
+            // Incremetn iterator and go to the next node
             $k++;
-            $this->xml->next($this->node_name);
+            $this->xml->next($this->nodeName);
         }
-        // I have 4 file nodes in tested XML file
-        return $files;
+
+        // Store the result in outputArray because of later manipulating with extracted array
+        $this->outputArray = $files;
+
+        // Check condition and if so, filter the data
+        if ($this->attributeFilter) {
+            return $this->filterData();
+        }
+        return $this->outputArray;
     }
 
     /**
@@ -124,9 +150,9 @@ class ReadXMLFile
      */
     public function printResult()
     {
-        if ($this->output_format == 'JSON') {
+        if ($this->outputFormat == 'JSON') {
             echo json_encode($this->iterateThroughNodes());
-        } elseif ($this->output_format == 'csv') {
+        } elseif ($this->outputFormat == 'csv') {
             $this->generateCsv();
         } else {
             print_r($this->iterateThroughNodes());
@@ -138,14 +164,16 @@ class ReadXMLFile
      */
     public function generateCsv()
     {
-        $csv_file = fopen('test.csv', 'w');
+        $csvFile = fopen('test.csv', 'w');
         // Header
-        fputcsv($csv_file, $this->attributes);
+        fputcsv($csvFile, $this->attributes);
         // Data
         foreach ($this->iterateThroughNodes() as $item) {
-            fputcsv($csv_file, $item, ";");
+            // if (is_array($item)) $item = implode(", ", $item);
+            var_dump(gettype($item));
+            fputcsv($csvFile, $item, ";");
         }
-        fclose($csv_file);
+        fclose($csvFile);
     }
 
     /**
@@ -153,7 +181,15 @@ class ReadXMLFile
      */
     public function filterData()
     {
-        return;
+        $filteredArray = [];
+        foreach ($this->outputArray as $key => $value) {
+            foreach ($this->attributeValues as $attrValue) {
+                if ($value[$this->attributeName] == $attrValue) {
+                    $filteredArray[] = $value;
+                }
+            }
+        }
+        return $filteredArray;
     }
 
     /**
@@ -162,23 +198,22 @@ class ReadXMLFile
     public function factorialNode(SimpleXMLElement $node)
     {
         //todo: here can be implemented solution for deciding how deep the loop go into the tree level
-        // current solution roll out every value from considered node, even the deepest one and put that value in $node_values array
+        // current solution roll out every value from considered node, even the deepest one and put that value in $nodeValues array
 
         $str = '------factorialNode'; // for orientation
         if (count($node) > 0) {
-            foreach ($node as $a => $parent) {
-                $this->factorialNode($parent);
+            foreach ($node as $key => $value) {
+                $this->factorialNode($value);
             }
         } else {
-            if ($this->node_attribute) {
-                $this->node_values[] = (string)$node->attributes()['Value'] . $str; // Hard coded value for required output Country_Market, EAN_UPCS. Every node can have different names of attributes. So this can be implemented as an option but it would have a lot of options and that leads to the whole project or micro framework.
+            if ($this->nodeAttribute) {
+                $this->nodeValues[] = (string)$node->attributes()['Value'] . $str; // Hard coded value for required output Country_Market, EAN_UPCS. Every node can have different names of attributes. So this can be implemented as an option but it would have a lot of options and that leads to the whole project or micro framework.
             } else {
-                // $this->node_values[$node->attributes()->type] = (string)$node;
-                $this->node_values[] = (string)$node;
+                $this->nodeValues[] = (string)$node;
             }
         }
 
-        return $this->node_values;
+        return $this->nodeValues;
     }
 
 }
