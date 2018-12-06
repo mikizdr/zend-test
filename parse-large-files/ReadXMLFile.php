@@ -111,30 +111,32 @@ class ReadXMLFile
                     $countryMarkets = [];
                     // $this->factorialNode($node);
                     if (count($node) > 0) {
-                        foreach ($node as $a => $iteration) {
-                            if (count($iteration) > 1) {
-                                echo ('<h1>Iteration ' . $a . ' ' . count($iteration)) . '</h1>';
-                                foreach ($iteration as $b => $child) {
+                        echo ('<h1>NODE ' . count($node) . '</h1>');
+                        foreach ($node as $a => $parent) {
+                            if (count($parent) > 0) {
+                                echo ('<h1>PARENT ' . $a . ' ' . count($parent)) . '</h1>';
+                                foreach ($parent as $b => $child) {
                                     if (count($child) > 0) {
-                                        echo ('<h1>Child ' . $b . ' ' . count($child)) . '</h1>';
-                                        foreach ($child as $c => $kid) {
-                                            $countryMarkets[][$c] = (string)$kid . 'KIDMILKA';
+                                        echo ('<h1>CHILD ' . $b . ' ' . count($child)) . '</h1>';
+                                        foreach ($child as $c => $grandchild) {
+                                            if (count($grandchild) > 0) {
+                                                echo ('<h1>GRAND CHILD ' . $c . ' ' . count($grandchild)) . '</h1>';
+                                                foreach ($grandchild as $d => $grandgrandchild) {
+                                                    $countryMarkets[] = (string)$grandgrandchild . 'GRAND GRAND CHILD MILKA';
+                                                }
+                                            } else {
+                                                echo ('<h1>ELSE GRAND CHILD ' . $b . ' ' . count($grandchild)) . '</h1>';
+                                                $countryMarkets[] = (string)$grandchild . 'ELSE GRAND CHILD MILKA';
+                                            }
                                         }
                                     } else {
-                                        $countryMarkets[] = (string)$child . 'CHILDMILKA';
+                                        echo ('<h1>ELSE CHILD ' . $b . ' ' . count($child)) . '</h1>';
+                                        $countryMarkets[] = (string)$child . 'ELSE CHILD MILKA';
                                     }
                                 }
                             } else {
-                                foreach ($iteration as $key => $child) {
-                                    echo ('<h1>Else ' . $a . ' ' . count($iteration)) . '</h1>';
-                                    if (count($child) > 0) {
-                                        foreach ($iteration as $key => $kid) {
-                                            $countryMarkets[] = (string)$kid . 'else foreach Lea > 0 foreach';
-                                        }
-                                    } else {
-                                        $countryMarkets[] = (string)$child . 'else foreach else Lea';
-                                    }
-                                }
+                                echo ('<h1>ELSE PARENT' . $a . ' ' . count($parent)) . '</h1>';
+                                $countryMarkets[] = (string)$child . 'PARENT Lea';
                             }
                         }
                     } else {
@@ -151,10 +153,10 @@ class ReadXMLFile
 
 
                     // if (count($node) > 1) {
-                    //     foreach ($node as $a => $iteration) {
-                    //         if (count($iteration) > 1) {
-                    //             echo ('<h1>Iteration ' . $a . ' ' . count($iteration)) . '</h1>';
-                    //             foreach ($iteration as $b => $child) {
+                    //     foreach ($node as $a => $parent) {
+                    //         if (count($parent) > 1) {
+                    //             echo ('<h1>parent ' . $a . ' ' . count($parent)) . '</h1>';
+                    //             foreach ($parent as $b => $child) {
                     //                 // echo ('<h1>Child ' . $b . ' ' . count($child)) . '</h1>';
                     //                 // if (count($child) > 1) {
                     //                 //     foreach ($child as $c => $kid) {
@@ -167,14 +169,14 @@ class ReadXMLFile
                     //                 // }
                     //             }
                     //         } else {
-                    //             foreach ($iteration as $key => $child) {
-                    //                 echo ('<h1>Else ' . $a . ' ' . count($iteration)) . '</h1>';
+                    //             foreach ($parent as $key => $child) {
+                    //                 echo ('<h1>Else ' . $a . ' ' . count($parent)) . '</h1>';
                     //                 if (count($child) > 1) {
-                    //                     foreach ($iteration as $key => $kid) {
+                    //                     foreach ($parent as $key => $kid) {
                     //                         $countryMarkets[] = (string)$kid . 'KIDlea';
                     //                     }
                     //                 } else {
-                    //                     $countryMarkets[][$child->getName()] = (string)$child . 'iterationlea';
+                    //                     $countryMarkets[][$child->getName()] = (string)$child . 'parentlea';
                     //                 }
                     //             }
                     //         }
