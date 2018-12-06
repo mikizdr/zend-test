@@ -126,6 +126,7 @@ class ReadXMLFile
                 if ($element->{$this->nodes[$i]}->count() > 0) {
                     $currentNode = $element->{$this->nodes[$i]};
                     $files[$k][$this->nodes[$i]] = $this->factorialNode($currentNode);
+                    // Reset nodeValues array to an empty array because of the next iteration
                     $this->nodeValues = [];
                 }
             }
@@ -166,11 +167,14 @@ class ReadXMLFile
     {
         $csvFile = fopen('test.csv', 'w');
         // Header
-        fputcsv($csvFile, $this->attributes);
+        fputcsv($csvFile, array_merge($this->attributes, $this->nodes));
         // Data
         foreach ($this->iterateThroughNodes() as $item) {
-            // if (is_array($item)) $item = implode(", ", $item);
-            var_dump(gettype($item));
+            foreach ($item as $key => $value) {
+                if (is_array($value)) {
+                    $item[$key] = implode(', ', $value);
+                }
+            }
             fputcsv($csvFile, $item, ";");
         }
         fclose($csvFile);
@@ -200,16 +204,16 @@ class ReadXMLFile
         //todo: here can be implemented solution for deciding how deep the loop go into the tree level
         // current solution roll out every value from considered node, even the deepest one and put that value in $nodeValues array
 
-        $str = '------factorialNode'; // for orientation
         if (count($node) > 0) {
             foreach ($node as $key => $value) {
                 $this->factorialNode($value);
             }
         } else {
             if ($this->nodeAttribute) {
-                $this->nodeValues[] = (string)$node->attributes()['Value'] . $str; // Hard coded value for required output Country_Market, EAN_UPCS. Every node can have different names of attributes. So this can be implemented as an option but it would have a lot of options and that leads to the whole project or micro framework.
+                $this->nodeValues[] = strval($node->attributes()['Value']); // Hard coded value for required output Country_Market, EAN_UPCS. Every node can have different names of attributes. So this can be implemented as an option but it would have a lot of options and that leads to the whole project or micro framework.
             } else {
-                $this->nodeValues[] = (string)$node;
+                $this->nodeValues[] = strval($node);
+                // $this->nodeValues[] = (string)$node;
             }
         }
 

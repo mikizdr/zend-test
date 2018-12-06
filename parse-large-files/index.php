@@ -31,7 +31,7 @@ $test2 = new ReadXMLFile(
         'Country_Markets', 'EAN_UPCS'                        // selected nodes for output
     ],
     'file',                                                  // main node name
-    'sdfdf',                                               // output format
+    'csv',                                               // output format
     true,                                                    // Read from attribute values of nodes 'Country_Markets', 'EAN_UPCS'
     'Product_ID',                                            // the name of attribute by which the data will be filtered out
     // 'Catid',
@@ -50,16 +50,16 @@ $test3 = new ReadXMLFile(
         'basketId', 'itemType', 'updateState' // attributes
     ],
     [
-        // 'manufacturer', 'series', 'artNr', 'description', 'features' // nodes
+        'manufacturer', 'series', 'artNr', 'description', 'features' // nodes
         // 'description' // nodes
-        'features' // nodes
+        // 'features' // nodes
     ],
     'bskArticle',
-    '' // Output format (JSON, csv, ...). Default is JSON.
+    'csv' // Output format (JSON, csv, ...). Default is JSON.
 );
 
 
 
 echo '<pre>';
-echo $test2->printResult();
+echo $test3->printResult();
 echo '</pre>';
